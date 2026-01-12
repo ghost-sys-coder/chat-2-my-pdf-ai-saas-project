@@ -61,7 +61,7 @@ const FileUpload = () => {
                             Uploading your PDF...
                         </h3>
                         <p className="text-sm text-gray-500 dark:text-gray-400">
-                            Please wait while securely upload to your file.
+                            Please wait while securely upload your file.
                         </p>
                     </div>
 

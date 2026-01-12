@@ -11,7 +11,7 @@ export const s3ClientConfig = new S3Client({
 
 export const uploadPDFToS3 = async (file: File) => {
     const fileExtension = file.name.split(".").pop();
-    const uniqueKey = `/uploads/${crypto.randomBytes(16).toString("hex")}.${fileExtension}`;
+    const uniqueKey = `uploads/${crypto.randomBytes(16).toString("hex")}.${fileExtension}`;
     const buffer = Buffer.from(await file.arrayBuffer());
 
     await s3ClientConfig.send(new PutObjectCommand({
