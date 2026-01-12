@@ -3,10 +3,6 @@ import crypto from "crypto";
 
 export const s3ClientConfig = new S3Client({
     region: "eu-north-1",
-    credentials: {
-        accessKeyId: process.env.AWS_S3_ACCESS_KEY!,
-        secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY!
-    }
 });
 
 export const uploadPDFToS3 = async (file: File) => {
