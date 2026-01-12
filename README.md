@@ -7,8 +7,11 @@ Built with a modern, scalable stack using **Next.js App Router**, **Clerk Authen
 ---
 
 ## 🚀 Preview
-
-![Chat with PDF preview](./assets/home-page.png)
+<!-- markdownlint-disable-next-line MD033 -->
+<p align="center">
+    <!-- markdownlint-disable-next-line MD033 -->
+  <img src="./public/assets/home-page.png" width="800" alt="Chat with PDF Preview" />
+</p>
 
 > Upload a PDF → Ask questions → Get instant AI-powered answers.
 
