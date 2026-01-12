@@ -1,5 +1,8 @@
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import crypto from "crypto";
+import { config } from "dotenv";
+
+config({ path: ".env" });
 
 export const s3ClientConfig = new S3Client({
     region: process.env.AWS_S3_REGION!,
