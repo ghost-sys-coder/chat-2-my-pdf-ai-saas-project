@@ -1,11 +1,43 @@
 "use client";
 import React, { useState } from 'react'
+import { useRouter } from 'next/navigation';
 import { useDropzone } from 'react-dropzone'
 import { Inbox, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { useMutation } from '@tanstack/react-query';
+import axios from "axios";
+
+interface FileReturnProps {
+    file_key: string;
+    file_name: string;
+    file_url: string;
+}
 
 const FileUpload = () => {
+    const router = useRouter();
     const [isFileLoading, setIsFileLoading] = useState(false);
+
+    const { mutate, isPending } = useMutation({
+        mutationFn: async ({ file_key, file_name, file_url }: FileReturnProps) => {
+            const response = await axios.post("/api/chats/create", {
+                file_key,
+                file_name,
+                file_url
+            });
+            return response.data
+        },
+        onSuccess: (data) => {
+            // console.log(data);
+            toast.success("Chat successfully created");
+
+            if (data?.chat_id) {
+                router.push(`/chat/${data.chat_id}`);
+            }
+        },
+        onError: () => {
+            toast.error("Failed to save chat!");
+        }
+    })
 
     const { getInputProps, getRootProps } = useDropzone({
         accept: { "application/pdf": [".pdf"] },
@@ -16,7 +48,7 @@ const FileUpload = () => {
                 toast.error("File size cannot exceed 5MB");
                 return;
             }
-            
+
             setIsFileLoading(true);
 
             try {
@@ -28,24 +60,31 @@ const FileUpload = () => {
                     body: formData
                 });
 
-                const data = await response.json();
-                console.log({ data });
+                const { result, message } = await response.json();
+                console.log(result);
 
                 if (!response.ok) {
-                    throw new Error(data.message || "Upload failed");
+                    throw new Error(message || "Upload failed");
                 }
+
+                // call the mutate function
+                mutate({
+                    file_key: result.file_key,
+                    file_name: result.file_name,
+                    file_url: result.file_url
+                });
 
                 toast.success("File successfully uploaded!");
             } catch (error) {
                 console.error("Something went wrong!", error);
                 toast.error((error as Error).message || "Something went wrong!");
-            } finally { 
+            } finally {
                 setIsFileLoading(false);
             }
         }
     });
 
-    if (isFileLoading) {
+    if (isFileLoading || isPending) {
         return (
             <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex justify-center items-center">
                 <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-2xl flex flex-col items-center gap-6 max-w-md mx-4">

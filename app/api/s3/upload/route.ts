@@ -1,8 +1,9 @@
-import { db } from "@/db";
-import { chatsTable } from "@/db/schema";
-import { uploadPDFToS3 } from "@/lib/aws-s3.server";
+import { uploadPDFToS3 } from "@/lib/aws-s3";
 import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
+
+// import { db } from "@/db";
+// import { chatsTable } from "@/db/schema";
 
 export async function POST(request: NextRequest) {
     try {
@@ -51,26 +52,26 @@ export async function POST(request: NextRequest) {
         }
 
 
-        // this code should be updated to save and start a chat for the uploaded file
-        const chats = await db.insert(chatsTable).values({
-            pdfName: file_name,
-            fileKey: file_key,
-            pdfUrl: file_url,
-           userId: userId
-        }).returning();
+        // this code can be updated to save and start a chat for the uploaded file
+        // const chats = await db.insert(chatsTable).values({
+        //     pdfName: file_name,
+        //     fileKey: file_key,
+        //     pdfUrl: file_url,
+        //    userId: userId
+        // }).returning();
 
-        if (!chats || chats.length === 0) {
-            return NextResponse.json({
-                success: false,
-                message: "Failed to save chat record! Try again"
-            }, { status: 500})
-        }
+        // if (!chats || chats.length === 0) {
+        //     return NextResponse.json({
+        //         success: false,
+        //         message: "Failed to save chat record! Try again"
+        //     }, { status: 500})
+        // }
 
 
         return NextResponse.json({
             success: true,
             message: "File has been successfully uploaded",
-            data: {
+            result: {
                 file_key,
                 file_name,
                 file_url
