@@ -13,6 +13,8 @@ export const chatsTable = pgTable("chats", {
     fileKey: text("file_key").notNull()
 });
 
+export type Chat = typeof chatsTable.$inferSelect;
+
 export const messagesTable = pgTable("messages", {
     id: serial("id").primaryKey(),
     chatId: integer("chat_id").references(() => chatsTable.id).notNull(),
