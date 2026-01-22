@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useChat } from "@ai-sdk/react"
 import { Send } from 'lucide-react';
 import { Input } from '../ui/input';
@@ -21,15 +21,19 @@ const ChatComponent = ({ chatId }: ChatProps) => {
   const [input, setInput] = useState<string>("");
   const { messages, sendMessage } = useChat();
 
+  const bottomRef = useRef<HTMLDivElement | null>(null);
 
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   return (
     <div className='relative overflow-auto flex flex-col h-full'>
       <div className="sticky top-0 bg-white z-10 inset-x-0 px-4 py-3 border-b shadow-sm">
-        <h2 className='text-lg font-medium'>Chat Component for Chat ID: {chatId}</h2>
+        <h2 className='text-lg font-medium'>Chat Chat ID: {chatId}</h2>
       </div>
 
-      <div className="flex-1 overflow-auto p-4 space-y-3">
+      <div className="flex-1 overflow-auto px-4 pt-4 pb-20 space-y-3">
         {messages.map((message, index) => (
           <div key={index}
             className={cn("p-2 flex rounded-lg w-full",
@@ -54,7 +58,7 @@ const ChatComponent = ({ chatId }: ChatProps) => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          sendMessage({ text: input, });
+          sendMessage({ text: input, metadata: { chatId } });
           setInput("");
         }}
         className='p-4 absolute bottom-0 inset-x-0 bg-white border-t w-full flex gap-1'>
@@ -73,6 +77,8 @@ const ChatComponent = ({ chatId }: ChatProps) => {
           </Button>
         </div>
       </form>
+
+      <div ref={bottomRef} />
     </div>
   )
 }
