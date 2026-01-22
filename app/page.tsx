@@ -1,13 +1,27 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { SignInButton, UserButton } from "@clerk/nextjs";
-import { LogIn, MessageCircle } from "lucide-react";
+import { LogIn } from "lucide-react";
 import { auth } from "@clerk/nextjs/server";
 import Image from "next/image";
 import FileUpload from "@/components/shared/FileUpload";
+import ChatButton from "@/components/shared/ChatButton";
+import { db } from "@/db";
+import { chatsTable } from "@/db/schema";
+import { desc, eq } from "drizzle-orm";
 
 export default async function Home() {
-  const { isAuthenticated } = await auth();
+  const { isAuthenticated, userId } = await auth();
+
+  if (!userId) {
+    throw new Error("User ID is missing");
+  }
+
+  // fetch user chats
+  const [latestChat] = await db.select().from(chatsTable)
+    .where(eq(chatsTable.userId, userId))
+    .orderBy(desc(chatsTable.createdAt)).limit(1);
+
 
   return (
     <main className="min-h-screen bg-linear-to-r from-rose-100 to-teal-100 relative">
@@ -20,21 +34,8 @@ export default async function Home() {
               <UserButton afterSwitchSessionUrl="/" />
             </div>
 
-            <div className="flex mt-4">
-              {isAuthenticated ? (
-                <Button>
-                  <MessageCircle />
-                  <span>Go to Chats</span>
-                </Button>
-              ) : (
-                <SignInButton mode="modal">
-                  <Button>
-                    <MessageCircle />
-                    <span>Got to Chats</span>
-                  </Button>
-                </SignInButton>
-              )}
-            </div>
+            <ChatButton isAuthenticated={isAuthenticated} chatId={latestChat.id} />
+            
             <p className="mt-3 text-slate-600 max-w-xl text-lg">Join millions of students, researchers and professionals to instantly answer questions and understand research with AI</p>
 
             <div className="w-full mt-4">

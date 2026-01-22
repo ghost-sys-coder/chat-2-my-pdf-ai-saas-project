@@ -66,6 +66,13 @@ const ChatComponent = ({ chatId }: ChatProps) => {
       </div>
 
       <div className="flex-1 overflow-auto px-4 pt-4 pb-20 space-y-3">
+        {messages.length === 0 && (
+          <div className="p-2 flex rounded-lg w-full justify-end">
+            <div className="max-w-[80%] text-sm leading-relaxed px-3 py-1.5 shadow-sm rounded-2xl bg-blue-600 text-white rounded-br-none">
+              <div>How can I help you today?</div>
+            </div>
+          </div>
+        )}
         {isLoadingMessages ? (
           <div className="flex justify-center items-center">
             <Loader2 className='h-4 w-4 animate-spin text-gray-400' />
