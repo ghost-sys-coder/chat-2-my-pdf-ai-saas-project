@@ -53,7 +53,7 @@ export async function GET() {
                             name: "CHAT-2-MY-PDF PRO",
                             description: "Unlimited PDF sessions"
                         },
-                        unit_amount: 5000,
+                        unit_amount: 7000,
                         recurring: {
                             interval: "month"
                         }
@@ -65,6 +65,8 @@ export async function GET() {
                 userId
             }
         });
+
+        console.log({ stripeCheckout });
 
         return NextResponse.json({
             success: true,

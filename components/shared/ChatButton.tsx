@@ -6,8 +6,11 @@ import { SignInButton } from '@clerk/nextjs'
 import { checkSubscription } from '@/lib/subscription'
 import SubscriptionsBtn from './SubscriptionsBtn'
 
+
 const ChatButton = async ({ isAuthenticated, chatId }: { isAuthenticated: boolean, chatId: number }) => {
   const { isValid } = await checkSubscription();
+
+
   return (
     <div className="flex mt-4">
       {isAuthenticated ? (

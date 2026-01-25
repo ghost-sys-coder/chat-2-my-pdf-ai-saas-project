@@ -9,12 +9,14 @@ import ChatButton from "@/components/shared/ChatButton";
 import { db } from "@/db";
 import { chatsTable } from "@/db/schema";
 import { desc, eq } from "drizzle-orm";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
   const { isAuthenticated, userId } = await auth();
 
   if (!userId) {
-    throw new Error("User ID is missing");
+    // throw new Error("User ID is missing");
+    return redirect("/sign-in");
   }
 
   // fetch user chats
