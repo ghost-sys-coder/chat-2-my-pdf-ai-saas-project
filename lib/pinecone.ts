@@ -63,7 +63,7 @@ export async function loadS3IntoPinecone(fileKey: string) {
     const nameSpace = convertToASCII(fileKey);
 
     // split the vectors into chunks of 100 - 200 max per upsert
-    const batches = chunkArray(vectors, 100);
+    const batches = chunkArray(vectors, 200);
 
     for (const [i, batch] of batches.entries()) {
         console.log(`Upserting batch ${i + 1} of ${batches.length}...`);
