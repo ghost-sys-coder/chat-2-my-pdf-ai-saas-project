@@ -1,0 +1,2 @@
+ALTER TABLE "user_subscriptions" ADD COLUMN "stripe_subscription_id" text;--> statement-breakpoint
+ALTER TABLE "user_subscriptions" ADD CONSTRAINT "user_subscriptions_stripe_subscription_id_unique" UNIQUE("stripe_subscription_id");

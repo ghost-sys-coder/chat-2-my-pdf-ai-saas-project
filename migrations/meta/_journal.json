@@ -8,6 +8,34 @@
       "when": 1768114959268,
       "tag": "0000_lonely_la_nuit",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1769106158226,
+      "tag": "0001_large_anita_blake",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1769115720275,
+      "tag": "0002_strange_kang",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1769115811432,
+      "tag": "0003_careless_puma",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1769171160047,
+      "tag": "0004_funny_stryfe",
+      "breakpoints": true
     }
   ]
 }

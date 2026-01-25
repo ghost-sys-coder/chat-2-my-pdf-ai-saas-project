@@ -21,4 +21,16 @@ export const messagesTable = pgTable("messages", {
     content: text("content").notNull(),
     createdAt: timestamp("created_at").notNull().defaultNow(),
     role: userSystemEnum("role").notNull()
+});
+
+
+// stripe subscription table
+export const userSubscriptionTable = pgTable("user_subscriptions", {
+    id: serial("id").primaryKey(),
+    userId: text("user_id").notNull().unique(),
+    stripeCustomerId: text("stripe_customer_id").unique(),
+    stripSubscriptionId: text("stripe_subscription_id").unique(),
+    stripePriceId: text("stripe_price_id"),
+    stripeCurrentPeriodEnd: timestamp("stripe_current_period_end"),
+    createdAt: timestamp("created_at").notNull().defaultNow()
 })

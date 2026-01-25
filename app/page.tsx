@@ -23,6 +23,7 @@ export default async function Home() {
     .orderBy(desc(chatsTable.createdAt)).limit(1);
 
 
+
   return (
     <main className="min-h-screen bg-linear-to-r from-rose-100 to-teal-100 relative">
 
