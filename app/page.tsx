@@ -6,24 +6,9 @@ import { auth } from "@clerk/nextjs/server";
 import Image from "next/image";
 import FileUpload from "@/components/shared/FileUpload";
 import ChatButton from "@/components/shared/ChatButton";
-import { db } from "@/db";
-import { chatsTable } from "@/db/schema";
-import { desc, eq } from "drizzle-orm";
-import { redirect } from "next/navigation";
 
 export default async function Home() {
-  const { isAuthenticated, userId } = await auth();
-
-  if (!userId) {
-    // throw new Error("User ID is missing");
-    return redirect("/sign-in");
-  }
-
-  // fetch user chats
-  const [latestChat] = await db.select().from(chatsTable)
-    .where(eq(chatsTable.userId, userId))
-    .orderBy(desc(chatsTable.createdAt)).limit(1);
-
+  const { isAuthenticated } = await auth();
 
 
   return (
@@ -37,7 +22,7 @@ export default async function Home() {
               <UserButton afterSwitchSessionUrl="/" />
             </div>
 
-            <ChatButton isAuthenticated={isAuthenticated} chatId={latestChat.id} />
+            <ChatButton isAuthenticated={isAuthenticated} />
             
             <p className="mt-3 text-slate-600 max-w-xl text-lg">Join millions of students, researchers and professionals to instantly answer questions and understand research with AI</p>
 
